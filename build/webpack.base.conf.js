@@ -53,7 +53,8 @@ module.exports = {
                     resolve('src'),
                     resolve('test'),
                     resolve('node_modules/webpack-dev-server/client'),
-                    require.resolve("bootstrap-vue")
+                    require.resolve("bootstrap-vue"),
+                    require.resolve("vuex")
                 ]
             },
             {
