@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-//import Camera from './Camera';
+import Camera from './Camera';
 
 Vue.use(Vuex);
 
@@ -23,8 +23,17 @@ const store = new Vuex.Store({
             }
         },
 
-        addCamera(state, camera) {
+        addCamera(state, cameraData) {
+            let camera = new Camera(cameraData.name, cameraData.resolution, cameraData.sensor);
             state.cameras.push(camera);
+        },
+
+        removeCamera(state, camera) {
+            let arrIndex = state.cameras.findIndex((x) => {
+                return x == camera;
+            });
+
+            state.cameras.splice(arrIndex, 1);
         },
 
         updateTelescopeFocalLength(state, focalLength) {
