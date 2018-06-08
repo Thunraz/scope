@@ -98,9 +98,6 @@
                     template(slot="pixelSize", slot-scope="data")
                         span(v-b-tooltip.hover="", :title="data.value + '\u2009µm native'") {{calcBinnedPixelSize(data.item)}}&thinsp;µm
 
-                    template(slot="binning", slot-scope="data")
-                        b-select(:options="binningOptions", v-model="data.item.binning", @change="updateBinning(data.index, data.item, $event)")
-
                     template(slot="visibleResolution", slot-scope="data")
                         span(v-if="data.item.visibleResolution != Infinity")
                             |{{calcVisibleResolution(data.item)}}&thinsp;
@@ -111,6 +108,9 @@
 
                     template(slot="fieldOfView", slot-scope="data")
                         span(v-if="data.item.visibleResolution != Infinity") {{calcFieldOfView(data.item)}}
+
+                    template(slot="binning", slot-scope="data")
+                        b-select(:options="binningOptions", v-model="data.item.binning", @change="updateBinning(data.index, data.item, $event)")
 
                     template(slot="HEAD_sampling", slot-scope="data")
                         span(v-b-tooltip.hover="", title="Ideal resolution 0.67-2.00 pixels per arcsecond") {{data.label}}
