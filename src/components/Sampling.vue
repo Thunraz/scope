@@ -49,7 +49,7 @@
 
                 // Focal length
                 .form-group.row
-                    label.col-sm-4.col-form-label(for="telescope-focal-length") Your telescope's focal length in mm
+                    label.col-sm-4.col-form-label.text-right(for="telescope-focal-length") Focal length in mm
                     .col-sm-8.input-group
                         input#telescope-focal-length.form-control(type="number", placeholder="Telescope focal length", v-model="focalLength")
                         .input-group-append
@@ -57,7 +57,7 @@
 
                 // Aperture
                 .form-group.row
-                    label.col-sm-4.col-form-label(for="telescope-aperture") Your telescope's aperture in mm
+                    label.col-sm-4.col-form-label.text-right(for="telescope-aperture") Aperture in mm
                     .col-sm-8.input-group
                         input#telescope-aperture.form-control(type="number", placeholder="Telescope aperture", v-model="aperture")
                         .input-group-append
@@ -65,23 +65,21 @@
                 
                 // Barlow lens
                 .form-group.row
-                    label.col-sm-4.col-form-label(for="telescope-barlow") Select a barlow lens/reducer
+                    label.col-sm-4.col-form-label.text-right(for="telescope-barlow") Barlow lens/reducer
                     .col-sm-8.input-group
                         b-form-radio-group#telescope-barlow(buttons, v-model="barlowLens", :options="availableBarlows", name="radiosBtnDefault")
                 
                 // f ratio
                 .form-group.row
-                    label.col-sm-4.col-form-label(for="telescope-f-ratio") &fnof; Ratio
+                    label.col-sm-4.col-form-label.text-right(for="telescope-f-ratio") &fnof; Ratio
                     .col-sm-8.input-group
-                        input#telescope-f-ratio.form-control(type="number", placeholder="Please fill in focal length and aperture", readonly, v-model="fRatio")
+                        input#telescope-f-ratio.form-control-plaintext(type="text", placeholder="Please fill in focal length and aperture", readonly, v-model="fRatio")
                 
                 // Maximum magnification
                 .form-group.row
-                    label.col-sm-4.col-form-label(for="telescope-maximum-magnification") Maximum magnification
+                    label.col-sm-4.col-form-label.text-right(for="telescope-maximum-magnification") Maximum magnification
                     .col-sm-8.input-group
-                        input#telescope-maximum-magnification.form-control(type="number", placeholder="Please fill in aperture", readonly, v-model="maxMagnification")
-                        .input-group-append
-                            span.input-group-text &times;
+                        input#telescope-maximum-magnification.form-control-plaintext(type="text", placeholder="Please fill in aperture", readonly, v-model="maxMagnification")
             
             // Cameras
             fieldset
@@ -228,7 +226,7 @@ export default {
 
         maxMagnification: {
             get() {
-                return this.$store.state.telescope.aperture * 2;
+                return (this.$store.state.telescope.aperture * 2) + '\u2009\u00d7';
             }
         }
     },
