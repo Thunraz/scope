@@ -8,7 +8,8 @@ const store = new Vuex.Store({
     state: {
         telescope: {
             focalLength: null,
-            aperture: null
+            aperture: null,
+            barlowLens: 1
         },
         cameras: []
     },
@@ -28,6 +29,10 @@ const store = new Vuex.Store({
             state.cameras.push(camera);
         },
 
+        updateCamera(state, obj) {
+            state.cameras[obj.index] = obj.data;
+        },
+
         removeCamera(state, camera) {
             let arrIndex = state.cameras.findIndex((x) => {
                 return x == camera;
@@ -44,6 +49,10 @@ const store = new Vuex.Store({
             state.telescope.aperture = aperture;
         },
 
+        updateTelescopeBarlowLens(state, barlowLens) {
+            state.telescope.barlowLens = barlowLens;
+        },
+
         updateCameraSensorWidth(state, width) {
             state.camera.sensorWidth = width;
         },
@@ -58,6 +67,10 @@ const store = new Vuex.Store({
 
         updateCameraResolutionY(state, pixels) {
             state.camera.resolutionY = pixels;
+        },
+
+        updateCameraBinning(state, binning) {
+            state.camera.binning = binning;
         }
     },
     getters: {}

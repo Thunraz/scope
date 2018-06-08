@@ -1,6 +1,6 @@
 <template lang="pug">
-    .container
-        b-modal#addCameraModal(title="Add new camera", size="lg", ok-title="Add", v-bind:ok-disabled="addCameraModalDisableOk", @show="clearModal", @ok="addCamera")
+    .container-fluid
+        b-modal#addCameraModal(title="Add new camera", size="lg", @shown="onCameraModalShow", ok-title="Add", v-bind:ok-disabled="addCameraModalDisableOk", @show="clearModal", @ok="addCamera")
             form
                 fieldset
                     // Camera name
@@ -37,9 +37,13 @@
                                 input#modal-camera-resolution-y.form-control(type="number", placeholder="Sensor height", v-model="addCameraModal.sensor.height")
                                 .input-group-append
                                     span.input-group-text mm
+        
+        b-modal(title="Remove camera", ref="removeCameraModal", lazy, ok-title="Remove", @ok="removeCamera")
+            span(v-if="removeCameraModal.camera") Really remove camera "{{removeCameraModal.camera.name}}"?
+        
         form
             // Telescope
-            fieldset
+            fieldset.container
                 .form-row
                     legend.form-label Telescope
 
@@ -58,36 +62,70 @@
                         input#telescope-aperture.form-control(type="number", placeholder="Telescope aperture", v-model="aperture")
                         .input-group-append
                             span.input-group-text mm
-
+                
+                // Barlow lens
+                .form-group.row
+                    label.col-sm-4.col-form-label(for="telescope-barlow") Select a barlow lens/reducer
+                    .col-sm-8.input-group
+                        b-form-radio-group#telescope-barlow(buttons, v-model="barlowLens", :options="availableBarlows", name="radiosBtnDefault")
+                
+                // f ratio
+                .form-group.row
+                    label.col-sm-4.col-form-label(for="telescope-f-ratio") &fnof; Ratio
+                    .col-sm-8.input-group
+                        input#telescope-f-ratio.form-control(type="number", placeholder="Please fill in focal length and aperture", readonly, v-model="fRatio")
+                
+                // Maximum magnification
+                .form-group.row
+                    label.col-sm-4.col-form-label(for="telescope-maximum-magnification") Maximum magnification
+                    .col-sm-8.input-group
+                        input#telescope-maximum-magnification.form-control(type="number", placeholder="Please fill in aperture", readonly, v-model="maxMagnification")
+                        .input-group-append
+                            span.input-group-text &times;
+            
+            // Cameras
             fieldset
                 .form-row
-                    legend.form-label Cameras
+                    legend.form-label Camera
+                        span(v-if="cameraList.length != 1") s
                         b-button.ml-2(size="sm", variant="success", v-b-modal="'addCameraModal'") Add new
-                // Cameras
-                b-table(striped, hover, :items="cameraList", :fields="cameraFields")
+                b-table(striped, hover, outlined, :items="cameraList", :fields="cameraFields")
+                    template(slot="resolution", slot-scope="data")
+                        //|{{data.value.x}}&times;{{data.value.y}}&thinsp;px
+                        span(v-b-tooltip.hover="", :title="data.value.x + '\u00d7' + data.value.y + '\u2009px native'") {{calcBinnedResolution(data.item)}}&thinsp;px
+                    
                     template(slot="sensor", slot-scope="data")
                         |{{data.value.width}}&times;{{data.value.height}}&thinsp;mm
-                    template(slot="resolution", slot-scope="data")
-                        |{{data.value.x}}&times;{{data.value.y}}&thinsp;px
+                    
                     template(slot="pixelSize", slot-scope="data")
-                        |{{data.value}}&thinsp;µm
+                        span(v-b-tooltip.hover="", :title="data.value + '\u2009µm native'") {{calcBinnedPixelSize(data.item)}}&thinsp;µm
+
+                    template(slot="binning", slot-scope="data")
+                        b-select(:options="binningOptions", v-model="data.item.binning", @change="updateBinning(data.index, data.item, $event)")
+
+                    template(slot="visibleResolution", slot-scope="data")
+                        span(v-if="data.item.visibleResolution != Infinity")
+                            |{{calcVisibleResolution(data.item)}}&thinsp;
+                            span.frac
+                                sup arcseconds
+                                span /
+                                sub pixel
+
+                    template(slot="fieldOfView", slot-scope="data")
+                        span(v-if="data.item.visibleResolution != Infinity") {{calcFieldOfView(data.item)}}
+
+                    template(slot="HEAD_sampling", slot-scope="data")
+                        span(v-b-tooltip.hover="", title="Ideal resolution 0.67-2.00 pixels per arcsecond") {{data.label}}
+
+                    template(slot="sampling", slot-scope="data")
+                        b-badge(variant="danger"  v-if="calcVisibleResolution(data.item) < 0.33",                                              v-b-popover.hover="oversampling" title="Slight Oversampling") Significant Oversampling
+                        b-badge(variant="warning" v-if="calcVisibleResolution(data.item) >= 0.33 && calcVisibleResolution(data.item) < 0.67",  v-b-popover.hover="oversampling" title="Slight Oversampling") Slight Oversampling
+                        b-badge(variant="success" v-if="calcVisibleResolution(data.item) >= 0.67 && calcVisibleResolution(data.item) <= 2.00", v-b-popover.hover="goodSampling" title="Good Sampling") Good
+                        b-badge(variant="warning" v-if="calcVisibleResolution(data.item) > 2.00 && calcVisibleResolution(data.item) < 3.00",   v-b-popover.hover="undersampling" title="Slight Undersampling") Slight Undersampling
+                        b-badge(variant="danger"  v-if="calcVisibleResolution(data.item) >= 3.00",                                             v-b-popover.hover="undersampling" title="Significant Undersampling") Significant Undersampling
+                    
                     template(slot="actions", slot-scope="row")
-                        b-button(size="sm", @click.stop="removeCamera(row.item)", variant="danger") Remove
-            
-        //table.table
-            tbody
-                tr(v-if="fRatio")
-                    td &fnof; Ratio
-                    td {{fRatio}}
-                tr
-                    td Maximum magnification
-                    td {{maxMagnification}}&times;
-                tr
-                    td Ideal Resolution
-                    td 0.67-2.00 arcseconds
-                tr(v-if="telescopeResolution")
-                    td Telescope resolution
-                    td {{telescopeResolution}} arcseconds per pixel
+                        b-button(size="sm", @click.stop="showRemoveCameraModal(row.item)", variant="danger") Remove
 </template>
 <script>
 
@@ -101,13 +139,39 @@ export default {
             sensor: { width: null, height: null }
         },
 
+        removeCameraModal: {
+            camera: null
+        },
+
+        oversampling:  'There are too many pixels for the level of details your telescope is capable of. Slight oversampling might be okay for exceptionally good seeing conditions.',
+        goodSampling:  'You have a good sampling. Your telescope provides a good resolution for this camera.',
+        undersampling: 'Your telescope provides a higher resolution than your camera is capable of. Stars might look blocky as light they only hit one or few pixels.',
+
+        availableBarlows: [
+            { text: '0.5&times;', value: 0.5 },
+            { text: 'None', value: 1 },
+            { text: '2&times;', value: 2 },
+            { text: '3&times;', value: 3 },
+            { text: '5&times;', value: 5 }
+        ],
+
+        binningOptions: [
+            { text: '1&times;1', value: 1 },
+            { text: '2&times;2', value: 2 },
+            { text: '3&times;3', value: 3 },
+            { text: '4&times;4', value: 4 }
+        ],
+
         cameraFields: {
-            name: { label: 'Name', sortable: true },
-            sensor: {  },
-            resolution: {  },
-            pixelSize: { sortable: true },
-            telescopeResolution: { formatter: 'calcTelescopeResolution', sortable: true },
-            actions: {}
+            name:       { label: 'Name', sortable: true },
+            resolution: { label: 'Resolution<br>(binned)' },
+            sensor:     { },
+            pixelSize:  { sortable: true, label: 'Pixel Size<br>(binned)' },
+            visibleResolution: { sortable: true },
+            fieldOfView: { label: 'FOV in arcmin' },
+            binning:    { },
+            sampling:   { sortable: true },
+            actions:    { }
         }
     }},
 
@@ -142,6 +206,13 @@ export default {
             }
         },
 
+        barlowLens: {
+            get() { return this.$store.state.telescope.barlowLens; },
+            set(value) {
+                this.$store.commit('updateTelescopeBarlowLens', value)
+            }
+        },
+
         fRatio: {
             get() {
                 let focalLength = this.$store.state.telescope.focalLength;
@@ -159,38 +230,19 @@ export default {
             get() {
                 return this.$store.state.telescope.aperture * 2;
             }
-        },
-
-        resolutionX: {
-            get() { return this.$store.state.camera.resolutionX; },
-            set(value) {
-                this.$store.commit('updateCameraResolutionX', value)
-            }
-        },
-
-        resolutionY: {
-            get() { return this.$store.state.camera.resolutionY },
-            set(value) {
-                this.$store.commit('updateCameraResolutionY', value)
-            }
-        },
-
-        sensorWidth: {
-            get() { return this.$store.state.camera.sensorWidth; },
-            set(value) {
-                this.$store.commit('updateCameraSensorWidth', value)
-            }
-        },
-
-        sensorHeight: {
-            get() { return this.$store.state.camera.sensorHeight },
-            set(value) {
-                this.$store.commit('updateCameraSensorHeight', value)
-            }
         }
     },
 
     methods: {
+        onCameraModalShow(e) {
+            e.target.querySelector('input').focus();
+        },
+
+        showRemoveCameraModal(item) {
+            this.$data.removeCameraModal.camera = item;
+            this.$refs.removeCameraModal.show();
+        },
+
         clearModal() {
             this.$data.addCameraModal = {
                 name: '',
@@ -199,22 +251,9 @@ export default {
             };
         },
 
-        removeCamera(camera) {
-            this.$store.commit('removeCamera', camera);
-        },
-
-        /*calcPixelSize(value, key, item) {
-            // Calculate pixel size
-            let pixelSizeX = item.sensor.width  / item.resolution.x * 1000;
-            let pixelSizeY = item.sensor.height / item.resolution.y * 1000;
-            let avgPixelSize = (pixelSizeX + pixelSizeY) / 2;
-            
-            return Math.round(avgPixelSize * 100) / 100;
-        },*/
-
-        calcTelescopeResolution(value, key, item) {
-            //debugger;
-            return Math.round(item.pixelSize / this.focalLength * 206.3 * 100) / 100;
+        updateBinning(index, data, binning) {
+            data.binning = binning;
+            this.$store.commit('updateCamera', { index, data })
         },
 
         addCamera() {
@@ -222,10 +261,57 @@ export default {
             this.$store.commit('addCamera', cameraData);
 
             this.clearModal();
+        },
+
+        removeCamera() {
+            this.$store.commit('removeCamera', this.$data.removeCameraModal.camera);
+        },
+
+        calcVisibleResolution(item) {
+            let visibleResolution =  Math.round(item.pixelSize / this.focalLength * this.barlowLens * 206.3 * 100) / 100 * item.binning;
+            item.visibleResolution = visibleResolution;
+            return visibleResolution;
+        },
+
+        calcFieldOfView(item) {
+            let xFov = Math.round(item.visibleResolution * item.resolution.x / item.binning / 6) / 10;
+            let yFov = Math.round(item.visibleResolution * item.resolution.y / item.binning / 6) / 10;
+
+            return xFov + '\u2032\u2009\u00d7\u2009' + yFov + '\u2032';
+        },
+
+        calcBinnedPixelSize(item) {
+            return Math.round(item.pixelSize * item.binning * 100) / 100;
+        },
+
+        calcBinnedResolution(item) {
+            let xRes = item.resolution.x / item.binning;
+            let yRes = item.resolution.y / item.binning;
+            return xRes + '\u00d7' + yRes;
         }
     }
 }
 </script>
 <style lang="scss" scoped>
+span.frac {
+    display: inline-block;
+    font-size: .75em;
+    text-align: center;
 
+    & > sup {
+        display: block;
+        border-bottom: 1px solid;
+        font: inherit;
+    }
+
+    & > span {
+        display: none;
+    }
+
+    & > sub {
+        display: block;
+        margin-top: -0.75em;
+        font: inherit;
+    }
+}
 </style>

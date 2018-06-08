@@ -1,19 +1,23 @@
+function calcPixelSize(sensor, resolution) {
+    if(!sensor)     return;
+    if(!resolution) return;
+
+    let pixelSizeX = sensor.width  / resolution.x * 1000;
+    let pixelSizeY = sensor.height / resolution.y * 1000;
+    let avgPixelSize = (pixelSizeX + pixelSizeY) / 2;
+
+    return Math.round(avgPixelSize * 100) / 100;
+}
+
 class Camera {
     constructor(name, resolution, sensor) {
         this.name       = name;
         this.resolution = Object.assign({}, resolution);
         this.sensor     = Object.assign({}, sensor);
-    }
-
-    pixelSize() {
-        if(!this.sensor)     return;
-        if(!this.resolution) return;
-
-        let pixelSizeX = this.sensor.width  / this.resolution.x * 1000;
-        let pixelSizeY = this.sensor.height / this.resolution.y * 1000;
-        let avgPixelSize = (pixelSizeX + pixelSizeY) / 2;
         
-        return Math.round(avgPixelSize * 100) / 100;
+        this.pixelSize  = calcPixelSize(this.sensor, this.resolution);
+        this.visibleResolution = 0.0;
+        this.binning    = 1;
     }
 }
 
