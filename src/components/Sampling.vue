@@ -1,5 +1,5 @@
 <template lang="pug">
-form
+form#sampling
     // Barlow lens
     .form-group
         label(for="telescope-barlow") Barlow lens/reducer
