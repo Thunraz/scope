@@ -1,21 +1,27 @@
 <template lang="pug">
-    form
-        // Barlow lens
-        .form-group
-            label(for="telescope-barlow") Barlow lens/reducer
-            .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-2
-                b-form-radio-group#telescope-barlow(buttons, v-model="barlowLens", :options="availableBarlows", name="radiosBtnDefault")
-        
-        // Binning
-        .form-group
-            label(for="telescope-barlow") Binning
-            .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-2
-                b-select(:options="binningOptions", v-model="binning")
+form
+    // Barlow lens
+    .form-group
+        label(for="telescope-barlow") Barlow lens/reducer
+        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-2
+            b-form-radio-group#telescope-barlow(buttons, v-model="barlowLens", :options="availableBarlows", name="radiosBtnDefault")
+    
+    // Binning
+    .form-group
+        label(for="telescope-barlow") Binning
+        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-2
+            b-select(:options="binningOptions", v-model="binning")
+
+    sampling-cameras
 </template>
 <script>
+import SamplingCameras from '@/components/SamplingCameras';
 
 export default {
     name: 'Sampling',
+    components: {
+        SamplingCameras
+    },
 
     data: () => { return {
         oversampling:  'There are too many pixels for the level of details your telescope is capable of. Slight oversampling might be okay for exceptionally good seeing conditions.',
