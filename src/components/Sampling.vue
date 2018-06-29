@@ -44,26 +44,26 @@ export default {
     }}
 }
 </script>
-<style lang="scss" scoped>
+<style scoped>
 span.frac {
     display: inline-block;
     font-size: .75em;
     text-align: center;
+}
 
-    & > sup {
-        display: block;
-        border-bottom: 1px solid;
-        font: inherit;
-    }
+span.frac > sup {
+    display: block;
+    border-bottom: 1px solid;
+    font: inherit;
+}
 
-    & > span {
-        display: none;
-    }
+span.frac > span {
+    display: none;
+}
 
-    & > sub {
-        display: block;
-        margin-top: -0.75em;
-        font: inherit;
-    }
+span.frac > sub {
+    display: block;
+    margin-top: -0.75em;
+    font: inherit;
 }
 </style>
