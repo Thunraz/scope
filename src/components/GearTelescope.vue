@@ -1,5 +1,5 @@
 <template lang="pug">
-form.gear-cameras
+form.gear-telescope
     .form-row
         legend.form-label Telescope
     

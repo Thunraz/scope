@@ -43,7 +43,7 @@ form.gear-cameras
 
 <script>
 export default {
-    name: 'GearCameras',
+    name: 'SamplingCameras',
 
     data: () => { return {
         cameraFields: {
