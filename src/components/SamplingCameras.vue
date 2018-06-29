@@ -1,9 +1,8 @@
 <template lang="pug">
-form.gear-cameras
+form.sampling-cameras
     .form-row
         legend.form-label Camera
             span(v-if="cameraList.length != 1") s
-            b-button.ml-2(size="sm", variant="success", v-b-modal="'addCameraModal'") Add new
     
     b-table(striped, hover, outlined, :items="cameraList", :fields="cameraFields")
         template(slot="resolution", slot-scope="data")

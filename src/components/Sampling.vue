@@ -3,13 +3,13 @@ form#sampling
     // Barlow lens
     .form-group
         label(for="telescope-barlow") Barlow lens/reducer
-        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-2
+        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-4
             b-form-radio-group#telescope-barlow(buttons, v-model="barlowLens", :options="availableBarlows", name="radiosBtnDefault")
     
     // Binning
     .form-group
         label(for="telescope-barlow") Binning
-        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-2
+        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-4
             b-select(:options="binningOptions", v-model="binning")
 
     sampling-cameras(:binning="binning", :barlowLens="barlowLens")

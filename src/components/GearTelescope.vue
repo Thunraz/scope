@@ -6,16 +6,16 @@ form.gear-telescope
     // Focal length
     .form-group
         label(for="telescope-focal-length") Focal length in mm
-        .input-group
-            input#telescope-focal-length.form-control.col-sm-12.col-md-6.col-lg-4.col-xl-2(type="number", placeholder="Telescope focal length", v-model="focalLength")
+        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-4
+            input#telescope-focal-length.form-control(type="number", placeholder="Telescope focal length", v-model="focalLength")
             .input-group-append
                 span.input-group-text mm
                 
     // Aperture
     .form-group
         label(for="telescope-aperture") Aperture in mm
-        .input-group
-            input#telescope-aperture.form-control.col-sm-12.col-md-6.col-lg-4.col-xl-2(type="number", placeholder="Telescope aperture", v-model="aperture")
+        .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-4
+            input#telescope-aperture.form-control(type="number", placeholder="Telescope aperture", v-model="aperture")
             .input-group-append
                 span.input-group-text mm
         
