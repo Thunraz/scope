@@ -6,6 +6,7 @@
                     ul.nav.flex-column
                         li.nav-item: router-link.nav-link(to="/Gear") Gear
                         li.nav-item: router-link.nav-link(to="/Sampling") Sampling
+                        li.nav-item: router-link.nav-link(to="/Exposure") Exposure time
             main.col-md-9.ml-sm-auto.col-lg-10.px-4(role="main")
                 #app
                     router-view
