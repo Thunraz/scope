@@ -11,18 +11,17 @@ export default new Router({
     linkActiveClass: 'active',
     routes: [
         {
-            path: '/',
-            alias: '/gear',
+            path: '/Gear',
             name: 'Gear',
             component: Gear
         },
         {
-            path: '/sampling',
+            path: '/Sampling',
             name: 'Sampling',
             component: Sampling
         },
         {
-            path: '/exposure',
+            path: '/Exposure',
             name: 'Exposure Time',
             component: ExposureTime
         }
