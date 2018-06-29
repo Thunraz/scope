@@ -7,13 +7,13 @@ import Sampling from '@/components/Sampling';
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router({
     linkActiveClass: 'active',
     routes: [
         {
             path: '/Gear',
             name: 'Gear',
-            component: Gear
+            component: Gear,
         },
         {
             path: '/Sampling',
@@ -26,4 +26,12 @@ export default new Router({
             component: ExposureTime
         }
     ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+    let title = to.name ? to.name + ' - ' : '';
+    document.title = title + 'Telescope Tools';
+    next()
+});
+
+export default router;
