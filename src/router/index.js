@@ -1,17 +1,19 @@
 import Router from 'vue-router';
 import Vue from 'vue';
 
-import HelloWorld from '@/components/HelloWorld';
 import Sampling from '@/components/Sampling';
+import Gear from '@/components/Gear';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
+    linkActiveClass: 'active',
     routes: [
         {
             path: '/',
-            name: 'HelloWorld',
-            component: HelloWorld
+            alias: '/gear',
+            name: 'Gear',
+            component: Gear
         },
         {
             path: '/sampling',

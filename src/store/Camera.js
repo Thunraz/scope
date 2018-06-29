@@ -10,10 +10,12 @@ function calcPixelSize(sensor, resolution) {
 }
 
 class Camera {
-    constructor(name, resolution, sensor) {
+    constructor(name, resolution, sensor, qe, readNoise) {
         this.name       = name;
         this.resolution = Object.assign({}, resolution);
         this.sensor     = Object.assign({}, sensor);
+        this.qe         = qe || 0;
+        this.readNoise  = readNoise || 0;
         
         this.pixelSize  = calcPixelSize(this.sensor, this.resolution);
         this.visibleResolution = 0.0;
