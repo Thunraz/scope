@@ -12,7 +12,7 @@ form#sampling
         .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-2
             b-select(:options="binningOptions", v-model="binning")
 
-    sampling-cameras
+    sampling-cameras(:binning="binning", :barlowLens="barlowLens")
 </template>
 <script>
 import SamplingCameras from '@/components/SamplingCameras';
@@ -24,10 +24,6 @@ export default {
     },
 
     data: () => { return {
-        oversampling:  'There are too many pixels for the level of details your telescope is capable of. Slight oversampling might be okay for exceptionally good seeing conditions.',
-        goodSampling:  'You have a good sampling. Your telescope provides a good resolution for this camera.',
-        undersampling: 'Your telescope provides a higher resolution than your camera is capable of. Stars might look blocky as light they only hit one or few pixels.',
-
         binning: 1,
         barlowLens: 1,
 
