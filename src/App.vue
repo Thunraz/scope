@@ -4,17 +4,24 @@
             nav#sidebar.col-md-2.d-none.d-md-block.bg-light.sidebar
                 .sidebar-sticky
                     ul.nav.flex-column
-                        li.nav-item: router-link.nav-link(to="/Gear") Gear
-                        li.nav-item: router-link.nav-link(to="/Sampling") Sampling
-                        li.nav-item: router-link.nav-link(to="/Exposure") Exposure time
+                        li.nav-item(v-for="route in routes"): router-link.nav-link(:to="route.path") {{route.name}}
             main.col-md-9.ml-sm-auto.col-lg-10.px-4(role="main")
                 #app
                     router-view
 </template>
 
 <script>
+
 export default {
-    name: 'App'
+    name: 'App',
+
+    computed: {
+        routes: {
+            get() {
+                return this.$router.options.routes;
+            }
+        }
+    }
 }
 </script>
 
