@@ -12,13 +12,13 @@ form.exposure-cameras
             span(v-if="data.value") {{data.value}}&thinsp;e&minus;
 
         template(slot="HEAD_singleExp", slot-scope="data")
-            span(v-b-tooltip.hover="", title="Optimal exposure time for a single exposure") {{data.label}}
+            span(v-b-tooltip.hover="", :title="hover.singleExp") {{data.label}}
 
         template(slot="singleExp", slot-scope="data")
             span(v-if="calcSingleExp(data.item)") {{round(calcSingleExp(data.item), 0)}}&thinsp;s
 
         template(slot="HEAD_numberOfExps", slot-scope="data")
-            span(v-b-tooltip.hover="", title="Number of exposures to match the target exposure time as close as possible") {{data.label}}
+            span(v-b-tooltip.hover="", :title="hover.numberOfExps") {{data.label}}
 
         template(slot="numberOfExps", slot-scope="data")
             span(v-if="calcSingleExp(data.item)") {{round(calcNumberOfExps(data.item), 1)}}
@@ -32,6 +32,11 @@ export default {
     props: ['targetExposure', 'lightPollution', 'extraNoise'],
 
     data: () => { return {
+        hover: {
+            singleExp: 'Optimal exposure time for a single exposure',
+            numberOfExps: 'Number of exposures you have to take to match the target exposure time as close as possible'
+        },
+
         cameraFields: {
             name:         { label: 'Name', sortable: true },
             qe:           { label: 'QE', sortable: true, formatter: 'formatQE' },
