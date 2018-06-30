@@ -4,6 +4,7 @@ form#exposure-time
         |Use this tool to calculate the optimal exposure time for your camera(s).
         |Based on #[a(href="https://forums.sharpcap.co.uk/viewtopic.php?f=35&t=456") these calculations] from
         |the #[a(href="https://www.sharpcap.co.uk/") SharpCap] developer.
+        
     // Target exposure time T
     .form-group
         label(for="target-exposure") Target exposure time in minutes
