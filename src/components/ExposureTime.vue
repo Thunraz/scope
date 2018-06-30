@@ -15,7 +15,7 @@ form#exposure-time
     .form-group
         label(for="light-pollution")
             |Light pollution background signal in photons (&gamma;) per pixel per second.
-            |5 &gamma;/pixel/s is a pretty strong background signal.
+            |5 &gamma;/pixel/s is a fairly strong background signal.
         .input-group.col-sm-12.col-md-6.col-lg-4.col-xl-4
             input#light-pollution.form-control(type="number", placeholder="Light pollution background signal", v-model="lightPollution")
             .input-group-append
