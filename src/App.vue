@@ -4,9 +4,7 @@
             nav#sidebar.col-md-2.d-none.d-md-block.bg-light.sidebar
                 .sidebar-sticky
                     ul.nav.flex-column
-                        li.nav-item: router-link.nav-link(to="/Gear") Gear
-                        li.nav-item: router-link.nav-link(to="/Sampling") Sampling
-                        li.nav-item: router-link.nav-link(to="/Exposure") Exposure time
+                        li.nav-item(v-for="item in $router.options.routes"): router-link.nav-link(:to="item.path") {{item.name}}
             main.col-md-9.ml-sm-auto.col-lg-10.px-4(role="main")
                 #app
                     router-view
