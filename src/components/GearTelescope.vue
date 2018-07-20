@@ -31,6 +31,13 @@ form.gear-telescope
         strong Maximum magnification:&nbsp;
         span(v-if="!maxMagnification") Please fill in aperture
         span(v-else) {{maxMagnification}}
+
+        span.spacer /
+
+        // Dawes' limit
+        strong Dawes' limit:&nbsp;
+        span(v-if="!dawesLimit") Please fill in aperture
+        span(v-else) {{dawesLimit}}
 </template>
 
 <script>
@@ -67,6 +74,12 @@ export default {
         maxMagnification: {
             get() {
                 return (this.$store.state.telescope.aperture * 2) + '\u2009\u00d7';
+            }
+        },
+
+        dawesLimit: {
+            get() {
+                return Math.round(11.6 / this.$store.state.telescope.aperture * 1000) / 1000 + '\u2009arcseconds';
             }
         }
     }
