@@ -79,7 +79,7 @@ export default {
 
         dawesLimit: {
             get() {
-                return Math.round(11.6 / this.$store.state.telescope.aperture * 1000) / 1000 + '\u2009arcseconds';
+                return Math.round(11.6 / this.$store.state.telescope.aperture * 1000) / 100 + '\u2009arcseconds';
             }
         }
     }
