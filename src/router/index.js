@@ -2,6 +2,7 @@ import Router from 'vue-router';
 import Vue from 'vue';
 
 import ExposureTime from '@/components/ExposureTime';
+import FOV from '@/components/FOV';
 import Gear from '@/components/Gear';
 import Sampling from '@/components/Sampling';
 
@@ -24,6 +25,11 @@ let router = new Router({
             path: '/Exposure',
             name: 'Exposure Time',
             component: ExposureTime
+        },
+        {
+            path: '/FOV',
+            name: 'Field of View calculations',
+            component: FOV
         }
     ]
 });
