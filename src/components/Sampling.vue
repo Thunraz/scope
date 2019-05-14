@@ -28,18 +28,18 @@ export default {
         barlowLens: 1,
 
         availableBarlows: [
-            { text: '0.5&times;', value: 0.5 },
+            { text: '0.5\u00d7', value: 0.5 },
             { text: 'None', value: 1 },
-            { text: '2&times;', value: 2 },
-            { text: '3&times;', value: 3 },
-            { text: '5&times;', value: 5 }
+            { text: '2\u00d7', value: 2 },
+            { text: '3\u00d7', value: 3 },
+            { text: '5\u00d7', value: 5 }
         ],
 
         binningOptions: [
-            { text: '1&times;1', value: 1 },
-            { text: '2&times;2', value: 2 },
-            { text: '3&times;3', value: 3 },
-            { text: '4&times;4', value: 4 }
+            { text: '1\u00d71', value: 1 },
+            { text: '2\u00d72', value: 2 },
+            { text: '3\u00d73', value: 3 },
+            { text: '4\u00d74', value: 4 }
         ]
     }}
 }

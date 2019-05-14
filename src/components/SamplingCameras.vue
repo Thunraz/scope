@@ -30,7 +30,7 @@ form.sampling-cameras
             b-badge(variant="danger"  v-if="calcVisibleResolution(data.item) < 0.33",                                              v-b-popover.hover="oversampling" title="Slight Oversampling") Significant Oversampling
             b-badge(variant="warning" v-if="calcVisibleResolution(data.item) >= 0.33 && calcVisibleResolution(data.item) < 0.67",  v-b-popover.hover="oversampling" title="Slight Oversampling") Slight Oversampling
             b-badge(variant="success" v-if="calcVisibleResolution(data.item) >= 0.67 && calcVisibleResolution(data.item) <= 2.00", v-b-popover.hover="goodSampling" title="Good Sampling") Good
-            b-badge(variant="warning" v-if="calcVisibleResolution(data.item) > 2.00 && calcVisibleResolution(data.item) < 3.00",   v-b-popover.hover="undersampling" title="Slight Undersampling") Slight Undersampling
+            b-badge(variant="warning" v-if="calcVisibleResolution(data.item) >  2.00 && calcVisibleResolution(data.item) < 3.00",  v-b-popover.hover="undersampling" title="Slight Undersampling") Slight Undersampling
             b-badge(variant="danger"  v-if="calcVisibleResolution(data.item) >= 3.00",                                             v-b-popover.hover="undersampling" title="Significant Undersampling") Significant Undersampling
 </template>
 
@@ -47,8 +47,8 @@ export default {
 
         cameraFields: {
             name:       { label: 'Name', sortable: true },
-            resolution: { label: 'Resolution<br>(binned)' },
-            pixelSize:  { sortable: true, label: 'Pixel Size<br>(binned)' },
+            resolution: { label: 'Resolution (binned)' },
+            pixelSize:  { sortable: true, label: 'Pixel Size (binned)' },
             visibleResolution: { sortable: true },
             fieldOfView: { label: 'FOV in arcmin' },
             sampling:   { sortable: true, label: 'Sampling rating' }
