@@ -1,20 +1,20 @@
 <template lang="pug">
 #gear
-    // Telescope
-    gear-telescope
+    // Telescopes
+    gear-telescopes
     
     // Cameras
     gear-cameras
 </template>
 
 <script>
-import GearTelescope from '@/components/GearTelescope';
+import GearTelescopes from '@/components/GearTelescopes';
 import GearCameras   from '@/components/GearCameras';
 
 export default {
     name: 'Gear',
     components: {
-        GearTelescope,
+        GearTelescopes,
         GearCameras
     }
 }

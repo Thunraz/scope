@@ -1,15 +1,14 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import Camera from './Camera';
+import Vue       from 'vue';
+import Vuex      from 'vuex';
+
+import Camera    from './Camera';
+import Telescope from './Telescope';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        telescope: {
-            focalLength: null,
-            aperture: null
-        },
+        telescopes: [],
         cameras: []
     },
     mutations: {
@@ -21,6 +20,19 @@ const store = new Vuex.Store({
                     Object.assign(state, JSON.parse(localStorage.getItem('store')))
                 );
             }
+        },
+
+        addTelescope(state, telescopeData) {
+            let telescope = new Telescope(
+                telescopeData.name,
+                telescopeData.focalLength,
+                telescopeData.aperture,
+            );
+            state.telescopes.push(telescope);
+        },
+
+        updateTelescope(state, obj) {
+            state.telescopes[obj.index] = obj.data;
         },
 
         addCamera(state, cameraData) {
