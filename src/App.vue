@@ -5,6 +5,8 @@
                 .sidebar-sticky
                     ul.nav.flex-column
                         li.nav-item(v-for="route in routes"): router-link.nav-link(:to="route.path") {{route.name}}
+                        li.nav-item Select active scope
+                            select: option(v-for="scope in telescopeList") {{scope.name}}
             main.col-md-9.ml-sm-auto.col-lg-10.px-4(role="main")
                 #app
                     router-view
@@ -20,7 +22,12 @@ export default {
             get() {
                 return this.$router.options.routes;
             }
-        }
+        },
+        telescopeList: {
+            get() {
+                return this.$store.state.telescopes;
+            }
+        },
     }
 }
 </script>
