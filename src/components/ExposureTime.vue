@@ -36,7 +36,7 @@ form#exposure-time
 </template>
 
 <script>
-import ExposureCameras from '@/components/ExposureCameras';
+import ExposureCameras from '../components/ExposureCameras.vue';
 
 export default {
     name: 'ExposureTime',

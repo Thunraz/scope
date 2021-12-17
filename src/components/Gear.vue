@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import GearTelescope from '@/components/GearTelescope';
-import GearCameras   from '@/components/GearCameras';
+import GearTelescope from '../components/GearTelescope.vue';
+import GearCameras   from '../components/GearCameras.vue';
 
 export default {
     name: 'Gear',

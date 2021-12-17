@@ -15,7 +15,7 @@ form#sampling
     sampling-cameras(:binning="binning", :barlowLens="barlowLens")
 </template>
 <script>
-import SamplingCameras from '@/components/SamplingCameras';
+import SamplingCameras from '../components/SamplingCameras.vue';
 
 export default {
     name: 'Sampling',

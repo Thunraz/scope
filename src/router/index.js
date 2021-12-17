@@ -1,10 +1,10 @@
 import Router from 'vue-router';
 import Vue from 'vue';
 
-import ExposureTime from '@/components/ExposureTime';
-import FOV from '@/components/FOV';
-import Gear from '@/components/Gear';
-import Sampling from '@/components/Sampling';
+import ExposureTime from '../components/ExposureTime.vue';
+import FOV from '../components/FOV.vue';
+import Gear from '../components/Gear.vue';
+import Sampling from '../components/Sampling.vue';
 
 Vue.use(Router);
 
